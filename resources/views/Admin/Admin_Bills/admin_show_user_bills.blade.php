@@ -59,13 +59,13 @@
                     @endif
                 </td>
                 <td>
-                    {{-- @if($bill->status === 'pending' && $bill->payment) --}}
+                    @if($bill->status === 'pending' && $bill->payment)
                     <a href="{{ asset('storage/receipts/' . basename($bill->payment->payment_receipt)) }}" target="_blank">
                         <img src="{{ asset('storage/receipts/' . basename($bill->payment->payment_receipt)) }}" alt="Receipt" style="max-width: 100px; max-height: 100px;">
                     </a>
-                    {{-- @else
+                    @else
                     <p>No Receipt</p>
-                    @endif --}}
+                    @endif
                 </td>
                 <td>
                     <a class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="{{ '#Editbills' . $bill->bill_id }}">แก้ไขบิล</a>

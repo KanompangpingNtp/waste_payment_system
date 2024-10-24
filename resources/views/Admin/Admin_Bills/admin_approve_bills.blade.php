@@ -119,13 +119,13 @@ use Carbon\Carbon;
                     @endif
                 </td>
                 <td>
-                    @if($bill->status === 'pending' && $bill->payment && $bill->payment->payment_receipt)
+                    @if($bill->status === 'pending' && $bill->payment)
                     <a href="{{ asset('storage/receipts/' . basename($bill->payment->payment_receipt)) }}" target="_blank">
                         <img src="{{ asset('storage/receipts/' . basename($bill->payment->payment_receipt)) }}" alt="Receipt" style="max-width: 100px; max-height: 100px;">
                     </a>
-                @else
+                    @else
                     <p>No Receipt</p>
-                @endif
+                    @endif
                 </td>
                 <td>
                     @if($bill->status === 'pending')
