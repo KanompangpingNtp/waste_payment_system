@@ -21,29 +21,6 @@ class AdminbillController extends Controller
         return view('Admin.Admin_Bills.admin_manage_bills', compact('bills', 'users'));
     }
 
-    // public function EditAdminBills(Request $request, $id)
-    // {
-    //     // ตรวจสอบข้อมูลจากฟอร์ม
-    //     $request->validate([
-    //         'billing_month' => 'required|date',
-    //         'amount' => 'required|numeric',
-    //         'due_date' => 'required|date',
-    //         'status' => 'required|in:paid,unpaid,pending',
-    //     ]);
-
-    //     // ค้นหาบิลที่ต้องการแก้ไข
-    //     $bill = Bill::findOrFail($id);
-
-    //     // อัปเดตข้อมูลบิล
-    //     $bill->billing_month = $request->billing_month;
-    //     $bill->amount = $request->amount;
-    //     $bill->due_date = $request->due_date;
-    //     $bill->status = $request->status;
-    //     $bill->save();
-
-    //     // กลับไปยังหน้าแสดงบิลทั้งหมด พร้อมแสดงข้อความสำเร็จ
-    //     return redirect()->back()->with('success', 'อัปเดตบิลเรียบร้อยแล้ว');
-    // }
     public function EditAdminBills(Request $request, $id)
     {
         // ตรวจสอบข้อมูลจากฟอร์ม

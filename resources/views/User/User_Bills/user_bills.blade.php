@@ -106,7 +106,7 @@
                                             <td>
                                                 @if ($bill->status === 'pending')
                                                     <a class="btn btn-success btn-sm disabled">
-                                                        ชำระเงิน
+                                                        ชำระเงินแล้ว
                                                     </a>
                                                 @else
                                                     <a class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="{{ '#payment_' . $bill->bill_id }}">

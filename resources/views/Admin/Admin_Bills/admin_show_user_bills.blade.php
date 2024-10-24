@@ -59,13 +59,13 @@
                     @endif
                 </td>
                 <td>
-                    @if($bill->payment)
-                    <a href="{{ asset('storage/' . $bill->payment->payment_receipt) }}" target="_blank">
-                        <img src="{{ asset('storage/' . $bill->payment->payment_receipt) }}" alt="Receipt" style="max-width: 100px; max-height: 100px;">
+                    {{-- @if($bill->status === 'pending' && $bill->payment) --}}
+                    <a href="{{ asset('storage/receipts/' . basename($bill->payment->payment_receipt)) }}" target="_blank">
+                        <img src="{{ asset('storage/receipts/' . basename($bill->payment->payment_receipt)) }}" alt="Receipt" style="max-width: 100px; max-height: 100px;">
                     </a>
-                    @else
-                    <p>ไม่มีใบเสร็จ</p>
-                    @endif
+                    {{-- @else
+                    <p>No Receipt</p>
+                    @endif --}}
                 </td>
                 <td>
                     <a class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="{{ '#Editbills' . $bill->bill_id }}">แก้ไขบิล</a>

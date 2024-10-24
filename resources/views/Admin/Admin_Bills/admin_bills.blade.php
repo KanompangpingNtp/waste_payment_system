@@ -22,7 +22,7 @@
         <tbody>
             @foreach ($users as $user)
             <tr class="text-center">
-                <td class="text-start">
+                <td class="text-center">
                     <a href="{{ route('showUserBills', $user->id) }}">{{ $user->name }}</a>
                 </td>
                 <td>{{ $user->phone_number }}</td>

@@ -18,33 +18,61 @@ class BillController extends Controller
         return view('User.User_Bills.user_bills', compact('bills'));
     }
 
+    // public function pay(Request $request, $bill_id)
+    // {
+    //     $request->validate([
+    //         'payment_date' => 'required|date',
+    //         'amount_paid' => 'required|numeric|min:0',
+    //         'payment_receipt' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+    //     ]);
+
+    //     $bill = Bill::findOrFail($bill_id);
+
+    //     $receiptPath = $request->file('payment_receipt')->store('receipts', 'public');
+
+    //     Payment::create([
+    //         'bill_id' => $bill->bill_id,
+    //         'payment_date' => $request->payment_date,
+    //         'amount_paid' => $request->amount_paid,
+    //         'payment_receipt' => $receiptPath,
+    //     ]);
+
+    //     $bill->update(['status' => 'pending']);
+
+    //     return redirect()->back()->with('success', 'บันทึกการชำระเงินเรียบร้อยแล้ว.');
+    // }
     public function pay(Request $request, $bill_id)
-    {
-        // Validate input data
-        $request->validate([
-            'payment_date' => 'required|date',
-            'amount_paid' => 'required|numeric|min:0',
-            'payment_receipt' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-        ]);
+{
+    $request->validate([
+        'payment_date' => 'required|date',
+        'amount_paid' => 'required|numeric|min:0',
+        'payment_receipt' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+    ]);
 
-        // ดึงข้อมูลบิลจากฐานข้อมูล
-        $bill = Bill::findOrFail($bill_id);
+    $bill = Bill::findOrFail($bill_id);
 
-        // จัดการกับไฟล์รูปภาพใบเสร็จ
-        $receiptPath = $request->file('payment_receipt')->store('receipts', 'public');
+    // กำหนดชื่อไฟล์ใหม่ให้ไม่ซ้ำ
+    $filename = time() . '_' . $request->file('payment_receipt')->getClientOriginalName();
 
-        // บันทึกข้อมูลการชำระเงินในตาราง payments
-        Payment::create([
-            'bill_id' => $bill->bill_id,
-            'payment_date' => $request->payment_date,
-            'amount_paid' => $request->amount_paid,
-            'payment_receipt' => $receiptPath,
-        ]);
+    // ย้ายไฟล์ไปที่โฟลเดอร์ public/storage/receipts
+    $request->file('payment_receipt')->move(public_path('storage/receipts'), $filename);
 
-        // อัปเดตสถานะบิลเป็น 'pending'
-        $bill->update(['status' => 'pending']);
+    // สร้างเส้นทางที่ใช้เก็บไฟล์
+    $receiptPath = 'storage/receipts/' . $filename;
 
-        // Redirect กลับไปยังหน้าเดิม
-        return redirect()->back()->with('success', 'บันทึกการชำระเงินเรียบร้อยแล้ว.');
-    }
+    // สร้างรายการการชำระเงินใหม่
+    Payment::create([
+        'bill_id' => $bill->bill_id,
+        'payment_date' => $request->payment_date,
+        'amount_paid' => $request->amount_paid,
+        'payment_receipt' => $receiptPath,
+    ]);
+
+    // อัปเดตสถานะของบิลเป็น 'pending'
+    $bill->update(['status' => 'pending']);
+
+    // กลับไปยังหน้าก่อนหน้าพร้อมแสดงข้อความสำเร็จ
+    return redirect()->back()->with('success', 'บันทึกการชำระเงินเรียบร้อยแล้ว.');
+}
+
 }
